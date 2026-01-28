@@ -1,9 +1,8 @@
 CXX = g++
 CXXFLAGS = -std=c++17
 
-all: many-writes.cpp fork.cpp
-	$(CXX) $(CXXFLAGS) -o many-writes many-writes.cpp
-	$(CXX) $(CXXFLAGS) -o fork fork.cpp
+all: $(wildcard *.cpp)
+	$(foreach file, $(wildcard *.cpp), $(CXX) $(CXXFLAGS) -o $(basename $(file)) $(file);)
 
 clean:
-	rm -f many-writes fork
+	rm -f $(wildcard *.exe)

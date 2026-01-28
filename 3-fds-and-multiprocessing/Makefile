@@ -1,9 +1,9 @@
 CXX = g++
 CXXFLAGS = -std=c++17
 
-all: $(wildcard *.cpp)
+all: $(wildcard *.c*)
 	mkdir -p out
-	$(foreach file, $(wildcard *.cpp), $(CXX) $(CXXFLAGS) -o $(basename $(file)) $(file);)
+	$(foreach file, $(wildcard *.c*), $(CXX) $(CXXFLAGS) -o $(basename $(file)) $(file);)
 
 clean:
 	rm -rf out

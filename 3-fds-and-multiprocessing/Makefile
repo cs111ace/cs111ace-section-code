@@ -6,4 +6,5 @@ all: $(wildcard *.cpp)
 	$(foreach file, $(wildcard *.cpp), $(CXX) $(CXXFLAGS) -o $(basename $(file)) $(file);)
 
 clean:
+	rm -rf out
 	rm -f $(wildcard *.exe)

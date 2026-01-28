@@ -1,17 +1,18 @@
-#include <iostream>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <cstdio>
 
 #define OPEN_BEFORE_FORK 0
 
-void write_to_file_many_times(int fd, std::string label)
+void write_to_file_many_times(int fd, const char *label)
 {
     for (int i = 0; i < 1000; i++)
     {
-        std::string msg = label + ": line " + std::to_string(i) + "\n";
+        char msg[100];
+        printf(msg, "%s: line %d\n", label, i);
 
-        write(fd, msg.c_str(), msg.length());
+        write(fd, msg, sizeof(msg));
     }
 }
 
@@ -26,7 +27,7 @@ int main()
     {
 #if !OPEN_BEFORE_FORK
         int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
-        std::cout << "Opened in child, fd=" << fd << std::endl;
+        printf("Opened in child, fd=%d\n", fd);
 #endif
         write_to_file_many_times(fd, "CHILD");
         close(fd);
@@ -35,7 +36,7 @@ int main()
     {
 #if !OPEN_BEFORE_FORK
         int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
-        std::cout << "Opened in parent, fd=" << fd << std::endl;
+        printf("Opened in parent, fd=%d\n", fd);
 #endif
         // Parent
         write_to_file_many_times(fd, "PARENT");

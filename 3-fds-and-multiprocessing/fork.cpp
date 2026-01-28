@@ -7,22 +7,18 @@ void spawn_child()
   auto pid = fork();
   if (pid == 0)
   {
-    std::cout << "I am the child process" << std::endl;
+    printf("I am the child process\n");
   }
   else
   {
-    std::cout << "I am the parent process" << std::endl;
+    printf("I am the parent process\n");
   }
 }
 
 void spawn_and_wait_for_child()
 {
   auto pid = fork();
-  std::cout << "Hi from the "
-            << (pid == 0 ? "child" : "parent")
-            << " pid: "
-            << pid
-            << std::endl;
+  printf("Hi from the %s pid: %d\n", (pid == 0 ? "child" : "parent"), pid);
 
   int status;
   if (pid == 0)

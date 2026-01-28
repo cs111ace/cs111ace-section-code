@@ -1,3 +1,12 @@
-**/*.txt
-**/*.out
-/out
+# ignore everything
+*
+
+# except for the following
+!*/
+
+!*.cpp
+!*.h
+!*.hpp
+!Makefile
+!README.md
+!.gitignore

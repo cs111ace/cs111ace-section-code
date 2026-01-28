@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #define OPEN_BEFORE_FORK 0
 

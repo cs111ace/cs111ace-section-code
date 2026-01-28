@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unistd.h>
+#include <sys/wait.h>
 
 void spawn_child()
 {

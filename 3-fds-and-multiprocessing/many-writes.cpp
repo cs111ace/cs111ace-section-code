@@ -25,7 +25,7 @@ int main()
     if (pid == 0)
     {
 #if !OPEN_BEFORE_FORK
-        int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
         std::cout << "Opened in child, fd=" << fd << std::endl;
 #endif
         write_to_file_many_times(fd, "CHILD");
@@ -34,7 +34,7 @@ int main()
     else
     {
 #if !OPEN_BEFORE_FORK
-        int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
         std::cout << "Opened in parent, fd=" << fd << std::endl;
 #endif
         // Parent

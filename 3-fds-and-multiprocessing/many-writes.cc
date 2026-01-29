@@ -1,29 +1,53 @@
+/**
+ * @file many-writes.cc
+ *
+ * @brief This program demonstrates the use of file descriptors and multiprocessing.
+ * It creates a file and writes to it from both a parent and child process.
+ *
+ * @author Fabio Ibanez
+ * Contact: fabioi@stanford.edu
+ *
+ */
+
 #include <fcntl.h>
 #include <unistd.h>
-#include <sys/wait.h>
+#include <sys/wait.h> // for waitpid
 #include <cstdio>
 
 #define OPEN_BEFORE_FORK 0
 
+/** Write to a file many times.
+ *
+ * Writes the string `label` to the file `fd` 1000 times.
+ *
+ * @param fd file descriptor
+ * @param label string to write to the file
+ */
 void write_to_file_many_times(int fd, const char *label)
 {
     for (int i = 0; i < 1000; i++)
     {
         char msg[100];
-        printf(msg, "%s: line %d\n", label, i);
+        int len = snprintf(msg, sizeof(msg), "%s: line %d\n", label, i);
 
-        write(fd, msg, sizeof(msg));
+        write(fd, msg, len);
     }
 }
 
+/** Main function.
+ *
+ * Creates a file and writes to it from both a parent and child process.
+ *
+ * @return 0 on success
+ */
 int main()
 {
 #ifdef OPEN_BEFORE_FORK
     int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 #endif
-    auto pid = fork();
+    auto pidOrZero = fork();
 
-    if (pid == 0)
+    if (pidOrZero == 0)
     {
 #if !OPEN_BEFORE_FORK
         int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -40,7 +64,7 @@ int main()
 #endif
         // Parent
         write_to_file_many_times(fd, "PARENT");
-        waitpid(pid, nullptr, 0);
+        waitpid(pidOrZero, nullptr, 0);
         close(fd);
     }
 

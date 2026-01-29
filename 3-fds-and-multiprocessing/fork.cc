@@ -4,8 +4,8 @@
 
 void spawn_child()
 {
-  auto pid = fork();
-  if (pid == 0)
+  auto pidOrZero = fork();
+  if (pidOrZero == 0)
   {
     printf("I am the child process\n");
   }
@@ -17,11 +17,11 @@ void spawn_child()
 
 void spawn_and_wait_for_child()
 {
-  auto pid = fork();
-  printf("Hi from the %s pid: %d\n", (pid == 0 ? "child" : "parent"), pid);
+  auto pidOrZero = fork();
+  printf("Hi from the %s pid: %d\n", (pidOrZero == 0 ? "child" : "parent"), pidOrZero);
 
   int status;
-  if (pid == 0)
+  if (pidOrZero == 0)
     waitpid(-1, &status, 0);
 }
 

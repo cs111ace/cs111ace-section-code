@@ -14,7 +14,7 @@
 #include <sys/wait.h> // for waitpid
 #include <cstdio>
 
-#define OPEN_BEFORE_FORK 0
+#define OPEN_BEFORE_FORK 1
 
 /** Write to a file many times.
  *
@@ -42,8 +42,9 @@ void write_to_file_many_times(int fd, const char *label)
  */
 int main()
 {
-#ifdef OPEN_BEFORE_FORK
+#if OPEN_BEFORE_FORK
     int fd = open("out/race_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    printf("Opened in parent, fd=%d\n", fd);
 #endif
     auto pidOrZero = fork();
 

@@ -60,7 +60,7 @@ void parent_doesnt_close()
     waitpid(pidOrZero, NULL, 0);
 }
 
-void pipe_deadlock_example()
+void pipe_waitpid_example()
 {
     int fds[2];
     pipe(fds);
@@ -88,6 +88,33 @@ void pipe_deadlock_example()
     close(fds[1]);
 }
 
+// TODO: why is this stalling?
+void reader_hangs_open_fd()
+{
+    int fds[2];
+    pipe(fds);
+    size_t bytesSent = strlen(kPipeMessage) + 1;
+    pid_t pidOrZero = fork();
+
+    if (pidOrZero == 0)
+    {
+        char buffer[bytesSent];
+        read(fds[0], buffer, sizeof(buffer));
+        printf("Child received: %s\n", buffer);
+
+        printf("Child is trying to read again (expecting EOF)...\n");
+
+        int bytesRead = read(fds[0], buffer, sizeof(buffer));
+
+        printf("This line will never print. Read returned %d\n", bytesRead);
+        exit(0);
+    }
+    close(fds[0]);
+    write(fds[1], kPipeMessage, bytesSent);
+    close(fds[1]); // Parent closes their write end
+    waitpid(pidOrZero, NULL, 0);
+}
+
 int main(int argc, char *argv[])
 {
     int selection;
@@ -96,7 +123,8 @@ int main(int argc, char *argv[])
         std::cout << "\n--- Function Harness ---" << std::endl;
         std::cout << "1. Run pipe example" << std::endl;
         std::cout << "2. Run parent_doesnt_close example" << std::endl;
-        std::cout << "3. Run pipe_deadlock_example" << std::endl;
+        std::cout << "3. Run pipe_waitpid_example" << std::endl;
+        std::cout << "4. reader_hangs_open_fd" << std::endl;
         std::cout << "0. Quit" << std::endl;
         std::cout << "Enter your choice: ";
         std::cin >> selection;
@@ -110,7 +138,10 @@ int main(int argc, char *argv[])
             parent_doesnt_close();
             break;
         case 3:
-            pipe_deadlock_example();
+            pipe_waitpid_example();
+            break;
+        case 4:
+            reader_hangs_open_fd();
             break;
         case 0:
             return 0;

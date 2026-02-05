@@ -12,15 +12,16 @@ void vanilla_fork() {
     int fds[2];
 
     pid_t pidOrZero = fork();
-    pipe(fds);
+    // pipe(fds);
     if (pidOrZero == 0) {
         // CHILD
-        // pipe(fds);
-        printf("fds[0] = %d, fds[1] = %d\n", fds[0], fds[1]);
+        pipe(fds);
+        printf("Child: fds[0] = %d, fds[1] = %d\n", fds[0], fds[1]);
+        exit(0); // what happens if you get rid of this?
     }
     // PARENT
-    // pipe(fds);
-    printf("fds[0] = %d, fds[1] = %d\n", fds[0], fds[1]);
+    pipe(fds);
+    printf("Parent: fds[0] = %d, fds[1] = %d\n", fds[0], fds[1]);
     waitpid(pidOrZero, NULL, 0);
 }
 

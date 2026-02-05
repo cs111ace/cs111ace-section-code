@@ -8,6 +8,22 @@
 
 static const char *kPipeMessage = "Hello, this message is coming through a pipe.";
 
+void vanilla_fork() {
+    int fds[2];
+
+    pid_t pidOrZero = fork();
+    pipe(fds);
+    if (pidOrZero == 0) {
+        // CHILD
+        // pipe(fds);
+        printf("fds[0] = %d, fds[1] = %d\n", fds[0], fds[1]);
+    }
+    // PARENT
+    // pipe(fds);
+    printf("fds[0] = %d, fds[1] = %d\n", fds[0], fds[1]);
+    waitpid(pidOrZero, NULL, 0);
+}
+
 // Lecture code from CS111 at Stanford University lecture 11, slide 33 Winter 2026
 void pipe_example()
 {
@@ -121,10 +137,11 @@ int main(int argc, char *argv[])
     while (true)
     {
         std::cout << "\n--- Function Harness ---" << std::endl;
-        std::cout << "1. Run pipe example" << std::endl;
-        std::cout << "2. Run parent_doesnt_close example" << std::endl;
-        std::cout << "3. Run pipe_waitpid_example" << std::endl;
-        std::cout << "4. reader_hangs_open_fd" << std::endl;
+        std::cout << "1. Run vanilla_fork example" << std::endl;
+        std::cout << "2. Run pipe example" << std::endl;
+        std::cout << "3. Run parent_doesnt_close example" << std::endl;
+        std::cout << "4. Run pipe_waitpid_example" << std::endl;
+        std::cout << "5. reader_hangs_open_fd" << std::endl;
         std::cout << "0. Quit" << std::endl;
         std::cout << "Enter your choice: ";
         std::cin >> selection;
@@ -132,15 +149,18 @@ int main(int argc, char *argv[])
         switch (selection)
         {
         case 1:
-            pipe_example();
+            vanilla_fork();
             break;
         case 2:
-            parent_doesnt_close();
+            pipe_example();
             break;
         case 3:
-            pipe_waitpid_example();
+            parent_doesnt_close();
             break;
         case 4:
+            pipe_waitpid_example();
+            break;
+        case 5:
             reader_hangs_open_fd();
             break;
         case 0:

@@ -38,7 +38,7 @@ Your task is to identify and fix a bug in the `stall` program that causes it to 
 
 ### 1. Find the Bug
 
-First, run the `stall` program and select **option 4** (`reader_hangs_open_fd`).
+First, run the `stall` program and select **option 5** (`reader_hangs_open_fd`).
 
 ```bash
 ./stall

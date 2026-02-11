@@ -34,8 +34,8 @@ int main()
     //   - Call execvp to run "./player" with arguments "2" and "0.8".
 
     // TODO: Close all pipe FDs in the parent (the parent doesn't use them).
- 
+
     // TODO: Wait for both children to finish.
- 
+
     return 0;
 }

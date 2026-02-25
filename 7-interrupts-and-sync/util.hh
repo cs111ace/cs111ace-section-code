@@ -35,3 +35,20 @@ context_switch:
         popq %rbp
         ret     # return back to the function **this stack** was running
 )");
+
+static const int kNumRegistersToSave = 6;
+Thread create_thread(void (*func)()) { 
+    Thread new_thread; 
+    void *stack_top = new_thread.stack + sizeof(new_thread.stack); 
+ 
+    // Make it look like this thread was about to start func, 
+    // and then context switched.  In other words, once 
+    // the saved registers are popped, ret should take us to 
+    // the start of func. 
+    *(void **)((char *)stack_top - sizeof(void *)) = (void *)func; 
+    
+    // Move the stack pointer downwards by 6 registers to make it appear like 
+    // we pushed 6 registers on when we previously context switched 
+    new_thread.saved_rsp = (char *)stack_top - sizeof(void *) - kNumRegistersToSave * sizeof(long);
+    return new_thread;
+}

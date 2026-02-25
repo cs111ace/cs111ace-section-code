@@ -5,7 +5,7 @@
 !*/
 
 !*.c*
-!*.h
+!*.h*
 !*.hpp
 !Makefile
 !README.md

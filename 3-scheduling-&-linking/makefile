@@ -25,6 +25,7 @@ link:
 	@echo "==> Link complete. Run with ./out"
 
 execute:
+	@echo "==> Executing 'a.out'"
 	./a.out
 
 clean:

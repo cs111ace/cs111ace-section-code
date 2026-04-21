@@ -1,7 +1,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <map>
-#include "library.cpp"
+#include "library.h"
 #include <thread>
 
 int main()

@@ -16,7 +16,7 @@ link:
 	@$(LINKER) \
 	  /usr/lib/x86_64-linux-gnu/crt1.o \
 	  /usr/lib/x86_64-linux-gnu/crti.o \
-	  main.o \
+	  $(OBJS) \
 	  /usr/lib/x86_64-linux-gnu/crtn.o \
 	  -L$$(dirname $$(gcc --print-file-name=libstdc++.so)) -lstdc++ -lgcc_s \
 	  -lc \

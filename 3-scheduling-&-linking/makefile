@@ -21,7 +21,6 @@ link:
 	  -L$$(dirname $$(gcc --print-file-name=libstdc++.so)) -lstdc++ -lgcc_s \
 	  -lc \
 	  -dynamic-linker /lib64/ld-linux-x86-64.so.2 \
-	  -o out
 	@echo "==> Link complete. Run with ./out"
 
 execute:

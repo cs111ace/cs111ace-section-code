@@ -20,8 +20,8 @@ link:
 	  /usr/lib/x86_64-linux-gnu/crtn.o \
 	  -L$$(dirname $$(gcc --print-file-name=libstdc++.so)) -lstdc++ -lgcc_s \
 	  -lc \
-	  -dynamic-linker /lib64/ld-linux-x86-64.so.2 \
-	@echo "==> Link complete. Run with ./out"
+	  -dynamic-linker /lib64/ld-linux-x86-64.so.2
+	@echo "==> Link complete. Run with ./a.out"
 
 execute:
 	@echo "==> Executing 'a.out'"

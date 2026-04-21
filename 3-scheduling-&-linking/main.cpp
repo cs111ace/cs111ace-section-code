@@ -5,10 +5,10 @@
 int main()
 {
 
-	std::unordered_map<int, std::string> map{};
+	std::unordered_map<int, std::string> map{{1, "Fabio"}};
 	for (auto elem : map)
 	{
-		std::cout << elem << std::endl;
+		std::cout << elem.first << std::endl;
 	}
 	return 0;
 }

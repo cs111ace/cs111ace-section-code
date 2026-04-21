@@ -16,7 +16,7 @@ link:
 	/usr/lib/x86_64-linux-gnu/crti.o \
 	main.o \
 	/usr/lib/x86_64-linux-gnu/crtn.o \
-	-L$$(dirname $$(gcc --print-file-name=libstdc++.so)) -lstdc++ \
+	-L$$(dirname $$(gcc --print-file-name=libstdc++.so)) -lstdc++ -lgcc_s \
 	-lc \
 	-dynamic-linker /lib64/ld-linux-x86-64.so.2 \
 

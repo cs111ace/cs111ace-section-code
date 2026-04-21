@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <map>
 #include "library.cpp"
+#include <thread>
 
 int main()
 {
@@ -14,6 +15,7 @@ int main()
 		std::cout << elem.first << std::endl;
 	}
 
-	task(2);
+	std::thread t1(task, 1);
+	std::thread t2(task, 2);
 	return 0;
 }
